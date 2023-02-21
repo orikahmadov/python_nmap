@@ -1,3 +1,4 @@
+from reportlab.pdfgen import canvas
 import argparse
 import os
 import subprocess
@@ -19,7 +20,6 @@ def run_nmap_scan(targets):
 def generate_report(scan_results, output_dir, output_format):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-
     current_time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     if output_format == 'txt':
         report_file = os.path.join(output_dir, f'nmap_scan_results_{current_time}.txt')
@@ -27,7 +27,9 @@ def generate_report(scan_results, output_dir, output_format):
             f.write(scan_results)
     elif output_format == 'pdf':
         report_file = os.path.join(output_dir, f'nmap_scan_results_{current_time}.pdf')
-        # TODO: Implement PDF report generation
+        pdf = canvas.Canvas(report_file)
+        pdf.drawString(100, 100, scan_results)
+        pdf.save()
     return report_file
 
 def main():
@@ -45,3 +47,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
