@@ -121,7 +121,26 @@ def generate_report(target, output_file):
     pdf.multi_cell(0, 5, txt=traceroute_results)
     pdf.cell(200, 10, txt="Script Scan Results", ln=8, align="C")
     pdf.multi_cell(0, 5, txt=script_scan_results)
+
+    # Add section with scan descriptions
+    pdf.cell(200, 10, txt="Scans Performed", ln=9, align="C")
+    pdf.cell(200, 10, txt="Host Discovery", ln=10, align="L")
+    pdf.multi_cell(0, 5, txt="Host discovery scan determines which hosts are up and running on the network. This is done by sending ARP requests or pinging the target host or network.")
+    pdf.cell(200, 10, txt="Port Scan", ln=11, align="L")
+    pdf.multi_cell(0, 5, txt="Port scan scans a target host or network for open ports and services. This is done by sending TCP or UDP packets to each port to check if it is open or closed.")
+    pdf.cell(200, 10, txt="Version Detection", ln=12, align="L")
+    pdf.multi_cell(0, 5, txt="Version detection determines the software and version of the services running on the target host or network. This is done by sending probes to the target service and analyzing the responses.")
+    pdf.cell(200, 10, txt="OS Detection", ln=13, align="L")
+    pdf.multi_cell(0, 5, txt="OS detection determines the operating system running on the target host or network. This is done by analyzing network traffic and comparing it against known characteristics of different operating systems.")
+    pdf.cell(200, 10, txt="Traceroute", ln=14, align="L")
+    pdf.multi_cell(0, 5, txt="Traceroute determines the route packets take to reach the target host or network. This is done by sending packets with a TTL value of 1 and incrementing the TTL value by 1 for each packet sent.")
+    pdf.cell(200, 10, txt="Script Scan", ln=15, align="L")
+    pdf.multi_cell(0, 5, txt="Script scan runs a series of scripts against the target host or network. This is done by sending packets to the target host or network and analyzing the responses.")
     pdf.output(output_file)
+    print(f"Report saved to {output_file}.")
+    print("Done.")
+    
+
 
 
 def main():
