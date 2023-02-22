@@ -18,6 +18,20 @@ def run_host_discovery(target):
     print("Host discovery complete.")
     return output.decode()
 
+def run_udp_scan(target):
+    try:
+        ip_address = socket.gethostbyname(target)
+    except socket.gaierror:
+        # Assume target is already an IP address
+        ip_address = target
+
+    print("Running port scan...")
+    nmap_command = f'nmap -sU -v {ip_address}'
+    process = subprocess.Popen(nmap_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    print("UDP scan complete.")
+    return output.decode()
+
 
 def run_port_scan(target):
     try:
