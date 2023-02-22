@@ -25,14 +25,14 @@ Usage
 The script can be run from the command line using the following syntax:
 
 
-python nmap_scanner.py target [-o output_file]
+python nmap_scanner.py -t [target] [-o output_file]
 where target is the IP address or hostname of the target to be scanned, and output_file (optional) is the name of the PDF file to which the results will be written. If output_file is not specified, the default filename "nmap_report.pdf" will be used.
 
 Example
 ---------------------------------------------------------------------------
 To scan the target host "example.com" and generate a report to the file "example_report.pdf", run the following command:
 
-python nmap_scanner.py example.com -o example_report.pdf
+python nmap_scanner.py -t example.com -o example_report.pdf
 This will perform all of the Nmap scans on the target and write the results to the specified output file.
 
 Dependencies
