@@ -1,8 +1,7 @@
 import argparse
 import subprocess
 import socket
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+from fpdf import FPDF
 
 def run_nmap_scan(target):
     try:
@@ -11,7 +10,7 @@ def run_nmap_scan(target):
         # Assume target is already an IP address
         ip_address = target
 
-    nmap_command = f'nmap -Pn -sS -sV {ip_address}'
+    nmap_command = f'nmap -sT -O -sV {ip_address}'
     process = subprocess.Popen(nmap_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     return output.decode()
@@ -21,10 +20,13 @@ def generate_report(target, output_file):
     scan_results = run_nmap_scan(target)
 
     # Generate the PDF report
-    pdf_file = canvas.Canvas(output_file, pagesize=letter)
-    pdf_file.drawString(100, 750, f"Nmap Scan Results for {target}")
-    pdf_file.drawString(100, 700, scan_results)
-    pdf_file.save()
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(0, 10, f'Nmap Scan Results for {target}', 0, 1)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, scan_results)
+    pdf.output(output_file)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run an Nmap scan and generate a PDF report')
