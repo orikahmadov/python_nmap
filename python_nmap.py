@@ -25,7 +25,7 @@ def run_udp_scan(target):
         # Assume target is already an IP address
         ip_address = target
 
-    print("Running port scan...")
+    print("Running UDP scan...")
     nmap_command = f'nmap -sU -v {ip_address}'
     process = subprocess.Popen(nmap_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
