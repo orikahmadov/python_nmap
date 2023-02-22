@@ -139,7 +139,7 @@ def generate_report(target, output_file):
     pdf.output(output_file)
     print(f"Report saved to {output_file}.")
     print("Done.")
-    
+
 
 
 
@@ -151,6 +151,9 @@ def main():
 
     if args.target and args.output:
         generate_report(args.target, args.output)
+    elif args.target and not args.output:
+        output_file = f"{args.target}_nmap_report.pdf"
+        generate_report(args.target, output_file)
     else:
         print("Please specify a target and an output file name.")
         print("Use -h or --help for more information.")
