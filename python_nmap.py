@@ -111,6 +111,7 @@ def run_script_scan(target):
 def generate_report(target, output_file):
     # Run the Nmap scans
     host_discovery_results = run_host_discovery(target)
+    udp_scan_results = run_udp_scan(target)
     port_scan_results = run_port_scan(target)
     version_detection_results = run_version_detection(target)
     os_detection_results = run_os_detection(target)
@@ -125,6 +126,8 @@ def generate_report(target, output_file):
     pdf.cell(200, 10, txt=f"Target: {target}", ln=2, align="C")
     pdf.cell(200, 10, txt="Host Discovery Results", ln=3, align="C")
     pdf.multi_cell(0, 5, txt=host_discovery_results)
+    pdf.cell(200, 10, txt="UDP Scan results", ln=4, align="C")
+    pdf.multi_cell(0, 5, txt=udp_scan_results)
     pdf.cell(200, 10, txt="Port Scan Results", ln=4, align="C")
     pdf.multi_cell(0, 5, txt=port_scan_results)
     pdf.cell(200, 10, txt="Version Detection Results", ln=5, align="C")
@@ -140,6 +143,8 @@ def generate_report(target, output_file):
     pdf.cell(200, 10, txt="Scans Performed", ln=9, align="C")
     pdf.cell(200, 10, txt="Host Discovery", ln=10, align="L")
     pdf.multi_cell(0, 5, txt="Host discovery scan determines which hosts are up and running on the network. This is done by sending ARP requests or pinging the target host or network.")
+    pdf.cell(200, 10, txt="UDP Scan", ln=11, align="L")
+    pdf.multi_cell(0, 5, txt="UDP scan scans a target host or network for open UDP ports and services. This is done by sending UDP packets to each port to check if it is open or closed.")
     pdf.cell(200, 10, txt="Port Scan", ln=11, align="L")
     pdf.multi_cell(0, 5, txt="Port scan scans a target host or network for open ports and services. This is done by sending TCP or UDP packets to each port to check if it is open or closed.")
     pdf.cell(200, 10, txt="Version Detection", ln=12, align="L")
