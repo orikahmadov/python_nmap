@@ -108,6 +108,21 @@ def run_script_scan(target):
     return output.decode()
 
 
+def run_vuln_scan(target):
+    try:
+        ip_address = socket.gethostbyname(target)
+    except socket.gaierror:
+        # Assume target is already an IP address
+        ip_address = target
+
+    print("Running vulnerability script scan ")
+    nmap_command = f'nmap -sV --script=vuln {ip_address}'
+    process = subprocess.Popen(nmap_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    print("Vulnerbaility scaript scan completed.")
+    return output.decode()
+
+
 def generate_report(target, output_file):
     # Run the Nmap scans
     host_discovery_results = run_host_discovery(target)
@@ -117,6 +132,8 @@ def generate_report(target, output_file):
     os_detection_results = run_os_detection(target)
     traceroute_results = run_traceroute(target)
     script_scan_results = run_script_scan(target)
+    vuln_scan_results = run_vuln_scan(target)
+  
 
     # Generate the PDF report
     pdf = FPDF()
@@ -138,7 +155,8 @@ def generate_report(target, output_file):
     pdf.multi_cell(0, 5, txt=traceroute_results)
     pdf.cell(200, 10, txt="Script Scan Results", ln=8, align="C")
     pdf.multi_cell(0, 5, txt=script_scan_results)
-
+    pdf.cell(200, 10, txt="Vulnerability Script Scan Results", ln=8, align="C")
+    pdf.multi_cell(0, 5, txt=vuln_scan_results)
     # Add section with scan descriptions
     pdf.cell(200, 10, txt="Scans Performed", ln=9, align="C")
     pdf.cell(200, 10, txt="Host Discovery", ln=10, align="L")
@@ -155,6 +173,8 @@ def generate_report(target, output_file):
     pdf.multi_cell(0, 5, txt="Traceroute determines the route packets take to reach the target host or network. This is done by sending packets with a TTL value of 1 and incrementing the TTL value by 1 for each packet sent.")
     pdf.cell(200, 10, txt="Script Scan", ln=15, align="L")
     pdf.multi_cell(0, 5, txt="Script scan runs a series of scripts against the target host or network. This is done by sending packets to the target host or network and analyzing the responses.")
+    pdf.cell(200, 10, txt="Vulnerability Script Scan", ln=15, align="L")
+    pdf.multi_cell(0, 5, txt="Vulnerability script scan runs series of scans against target to detect default easily detectable vulnerbailities")
     pdf.output(output_file)
     print(f"Report saved to {output_file}.")
     print("Done.")
