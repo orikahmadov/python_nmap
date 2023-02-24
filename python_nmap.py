@@ -12,7 +12,7 @@ def run_host_discovery(target):
         ip_address = target
 
     print("Running host discovery...")
-    nmap_command = f'nmap -sn {ip_address}'
+    nmap_command = f'nmap  {ip_address}'
     process = subprocess.Popen(nmap_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     print("Host discovery complete.")
